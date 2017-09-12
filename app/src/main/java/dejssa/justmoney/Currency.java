@@ -6,18 +6,30 @@ package dejssa.justmoney;
 
 public class Currency {
     private String name;
-    private String value;
+    private String valueBY;
+    private String valuePL;
 
-    public Currency(String name, String value) {
+    public Currency(String name) {
         this.name = name;
-        this.value = value;
+    }
+
+    public void setValueBY(String valueBY) {
+        this.valueBY = valueBY;
+    }
+
+    public void setValuePL(String valuePL) {
+        this.valuePL = valuePL;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getValue() {
-        return value;
+    public String getValueBY() {
+        return valueBY;
+    }
+
+    public String getValuePL() {
+        return valuePL;
     }
 }
