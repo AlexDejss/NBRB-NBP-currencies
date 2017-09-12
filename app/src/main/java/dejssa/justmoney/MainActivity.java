@@ -3,24 +3,18 @@ package dejssa.justmoney;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +45,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+    }
+
+    public void loadResult(ArrayList<Currency> currencies){
+
+        for(Currency currency : currencies){
+            Log.v("RESULT", currency.getName() + " " + currency.getValuePL() + " " + currency.getValueBY());
+        }
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.result_screen);
+        CurrencyAdapter currencyAdapter = new CurrencyAdapter(currencies);
+        recyclerView.setAdapter(currencyAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+
     }
 
     private void startUpdate(){
@@ -73,6 +85,36 @@ public class MainActivity extends AppCompatActivity {
         textView.setTypeface(typeface);
     }
 
+    class CurrencyAdapter extends RecyclerView.Adapter<CurrencyHolder>{
+
+        ArrayList<Currency> currencies = new ArrayList<>();
+
+        CurrencyAdapter(ArrayList<Currency> list) {
+            this.currencies = list;
+        }
+
+        @Override
+        public CurrencyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.result_row,parent,false);
+            return new CurrencyHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CurrencyHolder holder, int position) {
+            Currency currency = currencies.get(position);
+            holder.UpdateUI(currency);
+        }
+
+        @Override
+        public int getItemCount() {
+            return currencies.size();
+        }
+
+        void changeData(ArrayList<Currency> preferenceArrayList){
+            this.currencies = preferenceArrayList;
+            notifyDataSetChanged();
+        }
+    }
 
 
 

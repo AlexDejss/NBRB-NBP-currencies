@@ -65,9 +65,7 @@ public class LoadCurrency implements Runnable{
         }
 
         //NO PLN HERE
-        for(Currency currency : currencies){
-            Log.v("RESULT", currency.getName() + " " + currency.getValuePL() + " " + currency.getValueBY());
-        }
+
 
         update(good);
 
@@ -134,6 +132,12 @@ public class LoadCurrency implements Runnable{
     private void update(boolean done[]){
         if(done[0] && done[1]) {
             runUiToast("Updated");
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    activity.loadResult(currencies);
+                }
+            });
 
         }
         else{
