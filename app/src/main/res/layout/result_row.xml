@@ -19,14 +19,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/nbrb"
-            style="@style/NewText"
+            style="@style/NoBlack"
             android:text="@string/nbrb"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/nbp"
-            style="@style/NewText"
+            style="@style/NoBlack"
             android:text="@string/nbp"/>
     </LinearLayout>
 </LinearLayout>

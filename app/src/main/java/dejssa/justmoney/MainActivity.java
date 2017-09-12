@@ -2,9 +2,11 @@ package dejssa.justmoney;
 
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,19 +34,33 @@ public class MainActivity extends AppCompatActivity {
 
         bindInterface();
 
-        String[] currency_codes = {"USD", "EUR", "RUB", "PLN"};
 
-        LoadCurrency loadCurrency = new LoadCurrency(this, currency_codes);
-        Thread s = new Thread(loadCurrency);
-        s.start();
-
-
+        startUpdate();
     }
 
     private void bindInterface(){
         TextView[] titles = {(TextView) findViewById(R.id.names), (TextView) findViewById(R.id.nbrb), (TextView) findViewById(R.id.nbp)};
         for(TextView view : titles)
             setFont(view);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.update);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startUpdate();
+            }
+        });
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.result_screen);
+    }
+
+    private void startUpdate(){
+        String[] currency_codes = {"USD", "EUR", "RUB", "PLN"};
+
+        LoadCurrency loadCurrency = new LoadCurrency(this, currency_codes);
+        Thread s = new Thread(loadCurrency);
+        s.start();
+
     }
 
     public RelativeLayout getMainScreen(){
