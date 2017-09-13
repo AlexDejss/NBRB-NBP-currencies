@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="dejssa.justmoney.MainActivity"
     android:id="@+id/main_screen">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

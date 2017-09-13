@@ -49,25 +49,22 @@ public class LoadCurrency implements Runnable{
                 e.printStackTrace();
 
             }
-            try {
-
-                if(currency_codes[i].equals("PLN")){currency.setValuePL("1.0000");}
-                else connectToPage("http://api.nbp.pl/api/exchangerates/rates/a/" + currency_codes[i] + "?format=json", currency);
-
-            } catch (IOException | JSONException e) {
-
-                good[1] = false;
-                e.printStackTrace();
-
+            if(good[0]) {
+                try {
+                    if (currency_codes[i].equals("PLN")) {
+                        currency.setValuePL("1.0000");
+                    } else
+                        connectToPage("http://api.nbp.pl/api/exchangerates/rates/a/" + currency_codes[i] + "?format=json", currency);
+                } catch (IOException | JSONException e) {
+                    good[1] = false;
+                    e.printStackTrace();
+                }
             }
-
-            currencies.add(currency);
+            if(good[0] && good[1])
+                currencies.add(currency);
         }
 
-        //NO PLN HERE
-
-
-        update(good);
+        update();
 
     }
 
@@ -129,27 +126,15 @@ public class LoadCurrency implements Runnable{
         currency.setValuePL(value);
     }
 
-    private void update(boolean done[]){
-        if(done[0] && done[1]) {
-            runUiToast("Updated");
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.loadResult(currencies);
-                }
-            });
-
-        }
-        else{
-            runUiToast("Belarus bank is not available");
-        }
-    }
-
-    private void runUiToast(final String txt){
+    private void update(){
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Snackbar.make(activity.getMainScreen(), txt,Snackbar.LENGTH_LONG).show();
+                activity.loadResult(currencies);
+
+                String result = currencies.size() == currency_codes.length ? "Updated" : "Something went wrong. Half of date were missed";
+
+                Snackbar.make(activity.getMainScreen(), result,Snackbar.LENGTH_LONG).show();
             }
         });
     }
